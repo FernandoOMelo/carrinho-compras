@@ -6,23 +6,36 @@ let vlTotalCompra = 0;
 
 
 function adicionar(){
-    let AProduto = cbProdutos.value;
-    let parts = AProduto.split(" - ");
-    let ADescricao = parts[0];
-    let AValor = parts[1].replace("R$", "");
-    AValor = parseFloat(AValor);
     let AQuantidade = edtQuantidade.value;
-    let vlTotalItem = (AValor * parseInt(AQuantidade));
-    let texto = ''
 
+
+    if(AQuantidade == ''){
+        alert('Preencha o campo quantidade!');
+        return; 
+    }
+
+    let { vlTotalItem, ADescricao } = getProduto();
+    let AProduto = document.createElement('section');
     vlTotalCompra = vlTotalCompra + vlTotalItem;
-    texto = `<span class="texto-azul">${AQuantidade}x</span> ${ADescricao} <span class="texto-azul">R$${vlTotalItem}</span>`
-    lbListaProdutos.innerHTML = texto;
+    AProduto.className = 'carrinho__produtos__produto';
+    AProduto.innerHTML = `<span class="texto-azul">${AQuantidade}x</span> ${ADescricao} <span class="texto-azul">R$${vlTotalItem}</span>`;
+    lbListaProdutos.appendChild(AProduto);
     lbValorTotal.innerHTML = `<span class="texto-azul" id="valor-total">R$${vlTotalCompra}</span>`;
+    
+    function getProduto() {
+        let AProduto = cbProdutos.value;
+        let parts = AProduto.split(" - ");
+        let ADescricao = parts[0];
+        let AValor = parts[1].replace("R$", "");
+        let vlTotalItem = (parseFloat(AValor) * parseInt(AQuantidade));
+        return { vlTotalItem, ADescricao };
+    }
 }
 
 function limpar(){
     lbValorTotal.innerHTML = '<span class="texto-azul" id="valor-total">R$0,00</span>';
     lbListaProdutos.innerText = '';
+    vlTotalCompra = 0;
 }
+
 
