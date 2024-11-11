@@ -9,7 +9,7 @@ function adicionar(){
     let AQuantidade = edtQuantidade.value;
 
 
-    if(AQuantidade == ''){
+    if(AQuantidade == '' || AQuantidade == '0'){
         alert('Preencha o campo quantidade!');
         return; 
     }
@@ -21,12 +21,12 @@ function adicionar(){
     AProduto.innerHTML = `<span class="texto-azul">${AQuantidade}x</span> ${ADescricao} <span class="texto-azul">R$${vlTotalItem}</span>`;
     lbListaProdutos.appendChild(AProduto);
     lbValorTotal.innerHTML = `<span class="texto-azul" id="valor-total">R$${vlTotalCompra}</span>`;
+    edtQuantidade.value = '0';
     
     function getProduto() {
         let AProduto = cbProdutos.value;
-        let parts = AProduto.split(" - ");
-        let ADescricao = parts[0];
-        let AValor = parts[1].replace("R$", "");
+        let ADescricao = AProduto.split('-')[0];
+        let AValor = AProduto.split('R$')[1];
         let vlTotalItem = (parseFloat(AValor) * parseInt(AQuantidade));
         return { vlTotalItem, ADescricao };
     }
